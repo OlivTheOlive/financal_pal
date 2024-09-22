@@ -1,7 +1,9 @@
 /* eslint-disable no-prototype-builtins */
+import { AccountTypes, CategoryCount, Transaction } from "@/types";
 import { type ClassValue, clsx } from "clsx";
 import qs from "query-string";
 import { twMerge } from "tailwind-merge";
+import { z } from "zod";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -193,3 +195,69 @@ export const getTransactionStatus = (date: Date) => {
 
   return date > twoDaysAgo ? "Processing" : "Success";
 };
+export const authFormSchema = (type: string) =>
+  z.object({
+    email: z.string().email({ message: "Invalid email address" }),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters long" })
+      .max(16, { message: "Password must be less than 16 characters long" })
+      .regex(/[a-z]/, {
+        message: "Password must contain at least one lowercase letter",
+      })
+      .regex(/[A-Z]/, {
+        message: "Password must contain at least one uppercase letter",
+      })
+      .regex(/\d/, { message: "Password must contain at least one number" })
+      .regex(/[\W_]/, {
+        message: "Password must contain at least one special character",
+      }),
+    firstName:
+      type === "sign-in"
+        ? z.string().optional()
+        : z.string().min(1, { message: "First name is required" }),
+    lastName:
+      type === "sign-in"
+        ? z.string().optional()
+        : z
+            .string()
+            .min(2, { message: "Last name must be at least 2 characters" })
+            .max(50, { message: "Last name must be less than 50 characters" }),
+    city:
+      type === "sign-in"
+        ? z.string().optional()
+        : z.string().min(1, { message: "City is required" }),
+    address1:
+      type === "sign-in"
+        ? z.string().optional()
+        : z
+            .string()
+            .min(5, { message: "Address must be at least 5 characters long" })
+            .max(50, {
+              message: "Address must be less than 50 characters long",
+            }),
+    state:
+      type === "sign-in"
+        ? z.string().optional()
+        : z
+            .string()
+            .length(6, { message: "State must be exactly 6 characters long" }),
+    postalCode:
+      type === "sign-in"
+        ? z.string().optional()
+        : z
+            .string()
+            .regex(/^[A-Z0-9]{6}$/, { message: "Invalid postal code format" }),
+    dob:
+      type === "sign-in"
+        ? z.string().optional()
+        : z.string().min(10, {
+            message: "Date of birth must be valid and in the format YYYY-MM-DD",
+          }),
+    sin:
+      type === "sign-in"
+        ? z.string().optional()
+        : z
+            .string()
+            .min(9, { message: "SIN must be at least 9 characters long" }),
+  });
