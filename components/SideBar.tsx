@@ -31,21 +31,23 @@ const SideBar = ({ user }: SiderbarProps) => {
               key={item.label}
               className={cn("sidebar-link", { "bg-bank-gradient": isActive })}
             >
-              <div className="relative size-6  ">
+              <div className="relative size-6">
                 <Image
                   src={item.imgURL}
                   alt={item.label}
                   fill
-                  className={cn({ " brightness-[3] invert-0": isActive })}
+                  className={cn({ "brightness-[3] invert-0": isActive })}
                 />
-                <p className={cn("sidebar-label", { "!text-white": isActive })}>
-                  {item.label}
-                </p>
               </div>
+              <p className={cn("sidebar-label", { "!text-white": isActive })}>
+                {item.label}
+              </p>
             </Link>
           );
         })}
+        USER
       </nav>
+      FOOTER
     </section>
   );
 };
