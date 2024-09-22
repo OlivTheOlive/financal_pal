@@ -12,6 +12,7 @@ import { authFormSchema } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { Form } from "./ui/form";
 import { useRouter } from "next/navigation";
+import { signIn, signUp } from "@/lib/actions/user.actions";
 
 const AuthForm = ({ type }: { type: string }) => {
   const [user, setUser] = useState(null);
@@ -19,17 +20,17 @@ const AuthForm = ({ type }: { type: string }) => {
   const formSchema = authFormSchema(type);
   const router = useRouter();
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     try {
       // sign up with appwrite and create plaid token
 
       if (type === "sign-up") {
-        // const newUser = await signUp(data);
-        // setUser(newUser);
+        const newUser = await signUp(data);
+        setUser(newUser);
       }
       if (type === "sign-in") {
-        // const reponse = await SignIn({
+        // const reponse = await signIn({
         //   email: data.email,
         //   password: data.password,
         // });
