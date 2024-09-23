@@ -18,6 +18,7 @@ const AuthForm = ({ type }: { type: string }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const formSchema = authFormSchema(type);
+
   const router = useRouter();
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
@@ -30,13 +31,13 @@ const AuthForm = ({ type }: { type: string }) => {
         setUser(newUser);
       }
       if (type === "sign-in") {
-        // const reponse = await signIn({
-        //   email: data.email,
-        //   password: data.password,
-        // });
-        // if (reponse) {
-        //   router.push("/");
-        // }
+        const reponse = await signIn({
+          email: data.email,
+          password: data.password,
+        });
+        if (reponse) {
+          router.push("/");
+        }
       }
     } catch (error) {
     } finally {

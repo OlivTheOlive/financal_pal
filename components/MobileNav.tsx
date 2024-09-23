@@ -4,9 +4,6 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Image from "next/image";
@@ -14,7 +11,9 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { sidebarLinks } from "@/constants";
-const MobileNav = () => {
+import Footer from "./Footer";
+import { MobileNavProps } from "@/types";
+const MobileNav = ({ user }: MobileNavProps) => {
   const pathName = usePathname();
   return (
     <section className=" w-full max-w-[264px]">
@@ -82,7 +81,7 @@ const MobileNav = () => {
                 USER
               </nav>
             </SheetClose>
-            FOOTER
+            <Footer user={user} type="mobile" />
           </div>
         </SheetContent>
       </Sheet>
