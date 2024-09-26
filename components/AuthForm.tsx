@@ -13,6 +13,7 @@ import { Loader2 } from "lucide-react";
 import { Form } from "./ui/form";
 import { useRouter } from "next/navigation";
 import { signIn, signUp } from "@/lib/actions/user.actions";
+import PlaidLink from "./PlaidLink";
 
 const AuthForm = ({ type }: { type: string }) => {
   const [user, setUser] = useState(null);
@@ -27,7 +28,19 @@ const AuthForm = ({ type }: { type: string }) => {
       // sign up with appwrite and create plaid token
 
       if (type === "sign-up") {
-        const newUser = await signUp(data);
+        const userData = {
+          firstName: data.firstName!,
+          lastName: data.lastName!,
+          address1: data.address1!,
+          city: data.city!,
+          state: data.state!,
+          postalCode: data.postalCode!,
+          dateOfBirth: data.dob!,
+          ssn: data.ssn!,
+          email: data.email,
+          password: data.password,
+        };
+        const newUser = await signUp(userData);
         setUser(newUser);
       }
       if (type === "sign-in") {
@@ -82,7 +95,9 @@ const AuthForm = ({ type }: { type: string }) => {
         </div>
       </header>
       {user ? (
-        <div className="flex flex-col gap-4"> {"Plaid Link"}</div>
+        <div className="flex flex-col gap-4">
+          <PlaidLink user={user} variant="primary" />
+        </div>
       ) : (
         <>
           <Form {...form}>
@@ -119,14 +134,14 @@ const AuthForm = ({ type }: { type: string }) => {
                   <CustomFormInput
                     name={"state"}
                     control={form.control}
-                    label="Province"
-                    placeholder="Ex: Ontario"
+                    label="State"
+                    placeholder="Ex: NY"
                   />
                   <CustomFormInput
                     name={"postalCode"}
                     control={form.control}
-                    label="Postal Code"
-                    placeholder="Ex: A0A0A0"
+                    label="ZipCode"
+                    placeholder="Ex: 12345"
                   />
                 </div>
                 <div className="flex gap-4">
@@ -137,10 +152,10 @@ const AuthForm = ({ type }: { type: string }) => {
                     placeholder="yyyy-mm-dd"
                   />
                   <CustomFormInput
-                    name={"sin"}
+                    name={"ssn"}
                     control={form.control}
-                    label="SIN"
-                    placeholder="Example: 000-000-000"
+                    label="SSN"
+                    placeholder="Ex: 000000000"
                   />
                 </div>
               </>

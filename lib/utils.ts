@@ -239,25 +239,32 @@ export const authFormSchema = (type: string) =>
     state:
       type === "sign-in"
         ? z.string().optional()
-        : z.string().length(2, {
-            message: "Province must be exactly 2 characters long",
-          }),
+        : z
+            .string()
+            .regex(
+              /^(A[LKSZRAEP]|C[AOT]|D[EC]|F[L]|G[A]|H[I]|I[DLNA]|K[SY]|L[A]|M[EHDAINSOT]|N[CDEHJMVY]|O[HKR]|P[A]|R[I]|S[CD]|T[NX]|U[T]|V[AIT]|W[AIVY])$/,
+              {
+                message: "Invalid US state abbreviation",
+              }
+            ),
     postalCode:
       type === "sign-in"
         ? z.string().optional()
-        : z
-            .string()
-            .regex(/^[A-Z0-9]{6}$/, { message: "Invalid postal code format" }),
+        : z.string().regex(/^\d{5}(-\d{4})?$/, {
+            message:
+              "Invalid ZIP code format. Must be either 5 digits or 5+4 digits (e.g., 12345 or 12345-6789)",
+          }),
     dob:
       type === "sign-in"
         ? z.string().optional()
-        : z.string().min(10, {
+        : z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
             message: "Date of birth must be valid and in the format YYYY-MM-DD",
           }),
-    sin:
+    ssn:
       type === "sign-in"
         ? z.string().optional()
-        : z
-            .string()
-            .min(9, { message: "SIN must be at least 9 characters long" }),
+        : z.string().regex(/^\d{3}-?\d{2}-?\d{4}$/, {
+            message:
+              "Invalid SSN format. Must be 9 digits (e.g., 123-45-6789 or 123456789)",
+          }),
   });
