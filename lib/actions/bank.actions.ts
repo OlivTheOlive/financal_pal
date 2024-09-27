@@ -35,37 +35,46 @@ export const getAccounts = async ({ userId }: getAccountsProps) => {
         const accountsResponse = await plaidClient.accountsGet({
           access_token: bank.accessToken,
         });
-        const accountData = accountsResponse.data.accounts[0];
 
         // get institution info from plaid
         const institution = await getInstitution({
           institutionId: accountsResponse.data.item.institution_id!,
         });
 
-        const account = {
-          id: accountData.account_id,
-          availableBalance: accountData.balances.available!,
-          currentBalance: accountData.balances.current!,
-          institutionId: institution.institution_id,
-          name: accountData.name,
-          officialName: accountData.official_name,
-          mask: accountData.mask!,
-          type: accountData.type as string,
-          subtype: accountData.subtype! as string,
-          appwriteItemId: bank.$id,
-          shareableId: bank.shareableId,
-        };
+        // map over all accounts for each bank
+        const bankAccounts = accountsResponse.data.accounts.map(
+          (accountData) => ({
+            id: accountData.account_id,
+            availableBalance: accountData.balances.available!,
+            currentBalance: accountData.balances.current!,
+            institutionId: institution.institution_id,
+            name: accountData.name,
+            officialName: accountData.official_name,
+            mask: accountData.mask!,
+            type: accountData.type as string,
+            subtype: accountData.subtype! as string,
+            appwriteItemId: bank.$id,
+            shareableId: bank.shareableId,
+          })
+        );
 
-        return account;
+        return bankAccounts;
       })
     );
 
-    const totalBanks = accounts.length;
-    const totalCurrentBalance = accounts.reduce((total, account) => {
+    // Flatten the accounts array since you now have arrays within arrays
+    const flattenedAccounts = accounts.flat();
+
+    const totalBanks = flattenedAccounts.length;
+    const totalCurrentBalance = flattenedAccounts.reduce((total, account) => {
       return total + account.currentBalance;
     }, 0);
 
-    return parseStringify({ data: accounts, totalBanks, totalCurrentBalance });
+    return parseStringify({
+      data: flattenedAccounts,
+      totalBanks,
+      totalCurrentBalance,
+    });
   } catch (error) {
     console.error("An error occurred while getting the accounts:", error);
   }

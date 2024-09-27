@@ -8,7 +8,7 @@ import { BankTabItemProps } from "@/types";
 export const BankTabItem = ({ account, appwriteItemId }: BankTabItemProps) => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const isActive = appwriteItemId === account?.appwriteItemId;
+  const isActive = appwriteItemId === account?.id;
 
   const handleBankChange = () => {
     const newUrl = formUrlQuery({
