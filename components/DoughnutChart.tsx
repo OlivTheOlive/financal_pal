@@ -1,17 +1,21 @@
 "use client";
+import { DoughnutChartProps } from "@/types";
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
 
 const DoughnutChart = ({ accounts }: DoughnutChartProps) => {
+  const accountNames = accounts.map((acc) => acc.name);
+  const balances = accounts.map((acc) => acc.currentBalance);
+
   const data = {
     datasets: [
       {
         label: "Banks",
-        data: [1233, 3211, 6546],
+        data: balances,
         backgroundColor: ["30747b6", "#2265d8", "#ef91fa"],
       },
     ],
-    labels: ["Bank 1", "Bank 2", "Bank 3"],
+    labels: accountNames,
   };
 
   return (
