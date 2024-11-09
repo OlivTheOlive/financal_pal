@@ -260,11 +260,4 @@ export const authFormSchema = (type: string) =>
         : z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
             message: "Date of birth must be valid and in the format YYYY-MM-DD",
           }),
-    ssn:
-      type === "sign-in"
-        ? z.string().optional()
-        : z.string().regex(/^\d{3}-?\d{2}-?\d{4}$/, {
-            message:
-              "Invalid SSN format. Must be 9 digits (e.g., 123-45-6789 or 123456789)",
-          }),
   });

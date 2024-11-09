@@ -18,7 +18,6 @@ declare type SignUpParams = {
   state: string;
   postalCode: string;
   dateOfBirth: string;
-  ssn: string;
   email: string;
   password: string;
 };
@@ -230,7 +229,8 @@ declare interface SiderbarProps {
 declare interface RecentTransactionsProps {
   accounts: Account[];
   transactions: Transaction[];
-  appwriteItemId: string;
+  selectedAccountId: string;
+  setSelectedAccountId: () => void;
   page: number;
 }
 
@@ -316,7 +316,6 @@ declare interface createBankAccountProps {
   userId: string;
   accountId: string;
   bankId: string;
-  fundingSourceUrl: string;
   shareableId: string;
 }
 
