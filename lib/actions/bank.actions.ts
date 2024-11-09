@@ -11,10 +11,8 @@ import {
   getAccountsProps,
   getInstitutionProps,
   getTransactionsProps,
-  Transaction,
 } from "@/types";
 import { plaidClient } from "../plaid";
-import { getTransactionsByBankId } from "./transaction.action";
 
 // Get multiple bank accounts
 export const getAccounts = async ({ userId }: getAccountsProps) => {
@@ -165,7 +163,7 @@ export const getTransactions = async ({
   accessToken,
 }: getTransactionsProps) => {
   let hasMore = true;
-  let transactions: any = [];
+  let transactions: object = [];
 
   try {
     // Iterate through each page of new transaction updates for item
