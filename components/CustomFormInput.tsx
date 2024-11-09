@@ -1,8 +1,7 @@
 import React from "react";
 import { FormField, FormLabel, FormControl, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
-import { Control, FieldPath } from "react-hook-form";
-import { z } from "zod";
+import { Control } from "react-hook-form";
 interface FormInputProps {
   name: string;
   placeholder?: string;

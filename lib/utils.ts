@@ -77,7 +77,7 @@ export function formatAmount(amount: number): string {
   return formatter.format(amount);
 }
 
-export const parseStringify = (value: Object) =>
+export const parseStringify = (value: object) =>
   JSON.parse(JSON.stringify(value));
 
 export const removeSpecialCharacters = (value: string) => {

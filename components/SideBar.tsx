@@ -2,7 +2,6 @@
 import { sidebarLinks } from "@/constants";
 import { cn } from "@/lib/utils";
 import { SiderbarProps } from "@/types";
-import { clipArea } from "chart.js/helpers";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

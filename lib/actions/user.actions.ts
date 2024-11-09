@@ -13,7 +13,7 @@ import {
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { ID, Query } from "node-appwrite";
 import { cookies } from "next/headers";
-import { encryptId, extractCustomerIdFromUrl, parseStringify } from "../utils";
+import { encryptId, parseStringify } from "../utils";
 import { CountryCode, Products } from "plaid";
 import { plaidClient } from "../plaid";
 import { revalidatePath } from "next/cache";
@@ -60,7 +60,7 @@ export const signIn = async ({ email, password }: signInProps) => {
 };
 
 export const signUp = async ({ password, ...userData }: SignUpParams) => {
-  const { email, firstName, lastName, state } = userData;
+  const { email, firstName, lastName } = userData;
   let newUserAccount;
   try {
     const { account, database } = await createAdminClient();
@@ -115,6 +115,7 @@ export async function logoutAccount() {
 
     await account.deleteSession("current");
   } catch (error) {
+    console.error("logout Error", error);
     return null;
   }
 }
@@ -132,6 +133,7 @@ export const createLinkToken = async (user: User) => {
     const response = await plaidClient.linkTokenCreate(tokenParams);
     return parseStringify({ linkToken: response.data.link_token });
   } catch (error) {
+    console.error("createLinkToken Error", error);
     console.log(error);
   }
 };
