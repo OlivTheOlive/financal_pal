@@ -41,7 +41,6 @@ const RecentTransactions = ({
       <Tabs defaultValue={accounts[0]?.id} className="w-full">
         <TabsList className="recent-transactions-tablist">
           {accounts.map((account: Account) => {
-            let val = account.appwriteItemId;
             return (
               <TabsTrigger
                 key={account.id}
@@ -59,7 +58,7 @@ const RecentTransactions = ({
         </TabsList>
 
         {accounts.map((account: Account) => {
-          let val = account.appwriteItemId;
+          const val = account.appwriteItemId;
           return (
             <TabsContent
               value={account.id}

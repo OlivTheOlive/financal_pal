@@ -51,7 +51,7 @@ const AuthForm = ({ type }: { type: string }) => {
           router.push("/");
         }
       }
-    } catch (error) {
+    } catch (error: any) {
     } finally {
       setIsLoading(false);
     }
